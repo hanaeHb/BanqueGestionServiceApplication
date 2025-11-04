@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,6 +62,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseCompteDto> add(@RequestBody RequestCompteDto requestCompteDto) {
        ResponseCompteDto responseCompteDto = compteService.Add_Compte(requestCompteDto);
@@ -83,6 +85,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @GetMapping
     public ResponseEntity<List<ResponseCompteDto>> getAll() {
 
@@ -105,6 +108,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseCompteDto> getCompteById(@PathVariable Integer id) {
       ResponseCompteDto responseCompteDto = compteService.GETCompteById(id);
@@ -134,6 +138,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseCompteDto> update(@PathVariable Integer id,
                                                     @RequestBody RequestCompteDto requestCompteDto) {
@@ -151,6 +156,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
         compteService.DELETECompteBYID(id);
@@ -175,6 +181,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @PatchMapping("/crediter/{id}/{m}")
     ResponseEntity<ResponseCompteDto> crediter(@PathVariable Integer id, @PathVariable Double m) {
         ResponseCompteDto responseCompteDto = compteService.Crediter(id, m);
@@ -199,6 +206,7 @@ public class ApiRestfull {
             }
     )
 
+    @PreAuthorize("hasAuthority('SCOPE _ADMIN')")
     @PatchMapping("/debiter/{id}/{m}")
     ResponseEntity<ResponseCompteDto> debiter(@PathVariable Integer id, @PathVariable Double m) {
         ResponseCompteDto responseCompteDto = compteService.Debiter(id, m);
