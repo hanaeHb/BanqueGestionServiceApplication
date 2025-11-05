@@ -18,26 +18,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    private RsaKeys rsaKeys;
 
     public SecurityConfig(RsaKeys rsaKeys) {
         this.rsaKeys = rsaKeys;
     }
 
-    private RsaKeys rsaKeys;
 
     @Bean
-    public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .sessionManagement(sess-> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
     @Bean
-    JwtDecoder jwtDecoder(RsaKeys rsaKeys){
+    public JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
 }
